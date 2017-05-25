@@ -1,1 +1,14 @@
-<span></span>
+<yield>
+  <gb-list items="{ $products.products }">
+    <gb-product product="{ $item }">
+      <gb-link url="{ $product.link() }">
+        <img riot-src="{ $product.data.image }" alt="" />
+      </gb-link>
+      <gb-link url="{ $product.link() }">{ $product.data.title }</gb-link>
+      <p>{ $product.data.price }</p>
+      <a if="{ $product.variants.length > 1 }" each="{ variant, i in $product.variants }">
+        { i }
+      </a>
+    </gb-product>
+  </gb-list>
+</yield>
