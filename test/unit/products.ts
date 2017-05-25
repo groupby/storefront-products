@@ -6,12 +6,14 @@ suite('Products', ({ expect, spy }) => {
 
   describe('constructor()', () => {
     afterEach(() => {
+      delete Component.prototype.config;
       delete Component.prototype.expose;
       delete Component.prototype.flux;
     });
 
     it('should call expose()', () => {
       const expose = Component.prototype.expose = spy();
+      Component.prototype.config = <any>{ structure: {} };
       Component.prototype.flux = <any>{ on: () => null };
 
       new Products();
@@ -22,6 +24,7 @@ suite('Products', ({ expect, spy }) => {
     it('should listen for PRODUCTS_UPDATED', () => {
       const on = spy();
       Component.prototype.flux = <any>{ on };
+      Component.prototype.config = <any>{ structure: {} };
       Component.prototype.expose = () => null;
 
       const products = new Products();
