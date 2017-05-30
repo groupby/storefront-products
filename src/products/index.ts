@@ -1,6 +1,6 @@
 import { view, Component, Events, ProductTransformer, Store, Structure } from '@storefront/core';
 
-@view('gb-products', require('./index.html'), require('./index.css'))
+@view('gb-products', require('./index.html'))
 class Products extends Component {
 
   structure: Structure = this.config.structure;
