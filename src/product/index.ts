@@ -1,10 +1,10 @@
-import { view, Component, Store } from '@storefront/core';
+import { tag, Store, Tag } from '@storefront/core';
 
-@view('gb-product', '<yield/>', [
+@tag('gb-product', '<yield/>', [
   { name: 'product', default: {} }
 ])
-class Product extends Component {
-  props: Product.Props;
+class Product {
+
   state: Product.State = {
     data: {},
     variants: [],
@@ -18,6 +18,7 @@ class Product extends Component {
   }
 }
 
+interface Product extends Tag<Product.Props, Product.State> { }
 namespace Product {
   export interface Props {
     product: {
@@ -25,6 +26,7 @@ namespace Product {
       variants: any[];
     };
   }
+
   export interface State {
     data: any;
     variants: any[];

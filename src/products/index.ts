@@ -1,15 +1,14 @@
-import { view, Component, Events, ProductTransformer, Store, Structure } from '@storefront/core';
+import { tag, Events, ProductTransformer, Store, Structure, Tag } from '@storefront/core';
 
-@view('gb-products', require('./index.html'))
-class Products extends Component {
+@tag('gb-products', require('./index.html'))
+class Products {
 
   structure: Structure = this.config.structure;
   state: Products.State = {
     products: []
   };
 
-  constructor() {
-    super();
+  init() {
     this.expose('products');
     this.flux.on(Events.PRODUCTS_UPDATED, this.updateProducts);
   }
@@ -20,6 +19,7 @@ class Products extends Component {
     })
 }
 
+interface Products extends Tag<any, Products.State> { }
 namespace Products {
   export interface State {
     products: any[];
