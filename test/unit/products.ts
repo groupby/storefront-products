@@ -12,15 +12,6 @@ suite('Products', ({ expect, spy }) => {
   afterEach(() => delete Products.prototype.config);
 
   describe('init()', () => {
-    it('should call expose()', () => {
-      const expose = products.expose = spy();
-      products.flux = <any>{ on: () => null };
-
-      products.init();
-
-      expect(expose.calledWith('products')).to.be.true;
-    });
-
     it('should listen for PRODUCTS_UPDATED', () => {
       const on = spy();
       products.flux = <any>{ on };

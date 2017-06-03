@@ -4,5 +4,6 @@ import * as sinon from 'sinon';
 
 sinon.stub(storefront, 'view');
 
+mock('../src/product/index.html', {});
 mock('../src/products/index.html', {});
-mock('../src/products/index.css', {});
+mock('../src/simple-card/index.html', {});
