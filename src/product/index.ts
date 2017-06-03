@@ -1,10 +1,15 @@
-import { tag, Store, Tag } from '@storefront/core';
+import { alias, tag, Store, Tag } from '@storefront/core';
 
-@tag('gb-product', '<yield/>', [
-  { name: 'product', default: {} }
-])
+@alias('product')
+@tag('gb-product', require('./index.html'))
 class Product {
 
+  props: Product.Props = {
+    product: {
+      data: {},
+      variants: []
+    }
+  };
   state: Product.State = {
     data: {},
     variants: [],
@@ -12,9 +17,8 @@ class Product {
     link: () => `/details/${this.state.data.id}`
   };
 
-  onBeforeMount() {
+  init() {
     this.state = { ...this.state, ...this.props.product };
-    this.expose('product');
   }
 }
 

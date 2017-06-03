@@ -1,5 +1,6 @@
-import { tag, Events, ProductTransformer, Store, Structure, Tag } from '@storefront/core';
+import { alias, tag, Events, ProductTransformer, Store, Structure, Tag } from '@storefront/core';
 
+@alias('products')
 @tag('gb-products', require('./index.html'))
 class Products {
 
@@ -9,13 +10,12 @@ class Products {
   };
 
   init() {
-    this.expose('products');
     this.flux.on(Events.PRODUCTS_UPDATED, this.updateProducts);
   }
 
   updateProducts = (products: Store.Product[]) =>
     this.set({
-      products: products.map((product) => ProductTransformer.transform(product, this.structure))
+      products: products.map(ProductTransformer.transformer(this.structure))
     })
 }
 
