@@ -19,6 +19,22 @@ class Product {
 
   init() {
     this.state = { ...this.state, ...this.props.product };
+    console.log('product props: ', this.props);
+  }
+
+  onBeforeMount() {
+    console.log('onBeforeMount');
+    if (this.props.infinite) {
+      this.root.classList.add('gb-infinite');
+    }
+    if (this.props.tombstone) {
+      this.root.classList.add('tombstone');
+    }
+  }
+
+  onUpdate() {
+    console.log('product onUpdate: ', this.props.product);
+    this.state = { ...this.state, ...this.props.product };
   }
 }
 
@@ -29,6 +45,8 @@ namespace Product {
       data: any;
       variants: any[];
     };
+    infinite?: boolean;
+    tombstone?: boolean;
   }
 
   export interface State {
