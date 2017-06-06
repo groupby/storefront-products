@@ -19,7 +19,7 @@ suite('Products', ({ expect, spy }) => {
 
       products.init();
 
-      expect(on.calledWith(Events.PRODUCTS_UPDATED, products.updateProducts)).to.be.true;
+      expect(on).to.be.calledWith(Events.PRODUCTS_UPDATED, products.updateProducts);
     });
   });
 });
