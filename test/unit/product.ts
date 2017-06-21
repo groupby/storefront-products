@@ -1,7 +1,7 @@
 import Product from '../../src/product';
 import suite from './_suite';
 
-suite('Product', ({ expect }) => {
+suite('Product', ({ expect, spy }) => {
   let product: Product;
 
   beforeEach(() => product = new Product());
@@ -25,11 +25,22 @@ suite('Product', ({ expect }) => {
       });
 
       describe('link()', () => {
-        it('should create details link', () => {
+        it('should call build with state', () => {
           const id = '123';
-          product.state.data = { id };
+          const title = 'idk';
+          const build = spy();
+          product.state.data = { id, title };
+          product.services = <any>{
+            url: {
+              beautifier: {
+                build
+              }
+            }
+          };
 
-          expect(product.state.link()).to.eq('/details/123');
+          product.state.link();
+
+          expect(build).to.be.calledWith('details', { id, title, variants: [] });
         });
       });
     });
