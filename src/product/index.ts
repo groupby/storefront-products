@@ -13,8 +13,14 @@ class Product {
   state: Product.State = {
     data: {},
     variants: [],
-    // TODO: needs to come from beautifier
-    link: () => `/details/${this.state.data.id}`
+    link: () => {
+      const url = this.services.url.beautifier.build('details', {
+        id: this.state.data.id,
+        title: this.state.data.title,
+        variants: []
+      });
+      return url;
+    }
   };
 
   init() {
