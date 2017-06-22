@@ -14,12 +14,11 @@ class Product {
     data: {},
     variants: [],
     link: () => {
-      const url = this.services.url.beautifier.build('details', {
+      return this.services.url.beautifier.build('details', {
         id: this.state.data.id,
         title: this.state.data.title,
         variants: []
       });
-      return url;
     }
   };
 
