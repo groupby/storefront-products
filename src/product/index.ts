@@ -19,11 +19,21 @@ class Product {
         title: this.state.data.title,
         variants: []
       });
+    },
+    onClick: () => {
+      console.log('onclick', this.state.data);
+      this.flux.details(this.state.data.id, this.state.data.title);
     }
   };
 
   init() {
     this.state = { ...this.state, ...this.props.product };
+  }
+
+  onUpdate() {
+    console.log('im updatin my stuff');
+    this.state = { ...this.state, ...this.props.product };
+    this.updateAlias('product', this.state);
   }
 }
 
@@ -40,6 +50,7 @@ namespace Product {
     data: any;
     variants: any[];
     link(): string;
+    onClick(): void;
   }
 }
 
