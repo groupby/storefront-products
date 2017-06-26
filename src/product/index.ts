@@ -21,7 +21,6 @@ class Product {
       });
     },
     onClick: () => {
-      console.log('onclick', this.state.data);
       this.flux.details(this.state.data.id, this.state.data.title);
     }
   };
@@ -31,7 +30,6 @@ class Product {
   }
 
   onUpdate() {
-    console.log('im updatin my stuff');
     this.state = { ...this.state, ...this.props.product };
     this.updateAlias('product', this.state);
   }
