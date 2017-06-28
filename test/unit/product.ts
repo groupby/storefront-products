@@ -1,7 +1,7 @@
 import Product from '../../src/product';
 import suite from './_suite';
 
-suite('Product', ({ expect }) => {
+suite('Product', ({ expect, spy }) => {
   let product: Product;
 
   beforeEach(() => product = new Product());
@@ -25,18 +25,45 @@ suite('Product', ({ expect }) => {
       });
 
       describe('link()', () => {
-        it('should create details link', () => {
+        it('should call build with state', () => {
           const id = '123';
-          product.state.data = { id };
+          const title = 'idk';
+          const build = spy();
+          product.state.data = { id, title };
+          product.services = <any>{
+            url: {
+              beautifier: {
+                build
+              }
+            }
+          };
 
-          expect(product.state.link()).to.eq('/details/123');
+          product.state.link();
+
+          expect(build).to.be.calledWith('details', { id, title, variants: [] });
+        });
+      });
+
+      describe('onClick()', () => {
+        it('should call flux.details with id and title', () => {
+          const id = '123';
+          const title = 'idk';
+          const details = spy();
+          product.state.data = { id, title };
+          product.flux = <any>{
+            details
+          };
+
+          product.state.onClick();
+
+          expect(details).to.be.calledWith(id, title);
         });
       });
     });
   });
 
   describe('init()', () => {
-    it('shoud mixin product to state', () => {
+    it('should mixin product to state', () => {
       product.props = <any>{ product: { a: 'b' } };
       product.state = <any>{ c: 'd' };
 
@@ -45,4 +72,22 @@ suite('Product', ({ expect }) => {
       expect(product.state).to.eql({ a: 'b', c: 'd' });
     });
   });
+
+  describe('onUpdate()', () => {
+    it('should update state and alias', () => {
+      const state = <any>{ a: 'b' };
+      const productStuff = { c: 'd' };
+      const updateAlias = spy();
+      const newState = { ...state, ...productStuff };
+      product.state = state;
+      product.props = <any>{
+        product: productStuff
+      };
+      product.updateAlias = updateAlias;
+      product.onUpdate();
+
+      expect(product.state).to.eql(newState);
+      expect(updateAlias).to.be.calledWith('product', newState);
+    });
+  })
 });

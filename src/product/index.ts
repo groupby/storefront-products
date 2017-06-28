@@ -13,12 +13,23 @@ class Product {
   state: Product.State = {
     data: {},
     variants: [],
-    // TODO: needs to come from beautifier
-    link: () => `/details/${this.state.data.id}`
+    link: () => {
+      return this.services.url.beautifier.build('details', {
+        id: this.state.data.id,
+        title: this.state.data.title,
+        variants: []
+      });
+    },
+    onClick: () => this.flux.details(this.state.data.id, this.state.data.title)
   };
 
   init() {
     this.state = { ...this.state, ...this.props.product };
+  }
+
+  onUpdate() {
+    this.state = { ...this.state, ...this.props.product };
+    this.updateAlias('product', this.state);
   }
 }
 
@@ -35,6 +46,7 @@ namespace Product {
     data: any;
     variants: any[];
     link(): string;
+    onClick(): void;
   }
 }
 
