@@ -20,9 +20,7 @@ class Product {
         variants: []
       });
     },
-    onClick: () => {
-      this.flux.details(this.state.data.id, this.state.data.title);
-    }
+    onClick: () => this.flux.details(this.state.data.id, this.state.data.title)
   };
 
   init() {
