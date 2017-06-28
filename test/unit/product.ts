@@ -43,11 +43,27 @@ suite('Product', ({ expect, spy }) => {
           expect(build).to.be.calledWith('details', { id, title, variants: [] });
         });
       });
+
+      describe('onClick()', () => {
+        it('should call flux.details with id and title', () => {
+          const id = '123';
+          const title = 'idk';
+          const details = spy();
+          product.state.data = { id, title };
+          product.flux = <any>{
+            details
+          };
+
+          product.state.onClick();
+
+          expect(details).to.be.calledWith(id, title);
+        });
+      });
     });
   });
 
   describe('init()', () => {
-    it('shoud mixin product to state', () => {
+    it('should mixin product to state', () => {
       product.props = <any>{ product: { a: 'b' } };
       product.state = <any>{ c: 'd' };
 
@@ -56,4 +72,22 @@ suite('Product', ({ expect, spy }) => {
       expect(product.state).to.eql({ a: 'b', c: 'd' });
     });
   });
+
+  describe('onUpdate()', () => {
+    it('should update state and alias', () => {
+      const state = <any>{ a: 'b' };
+      const productStuff = { c: 'd' };
+      const updateAlias = spy();
+      const newState = { ...state, ...productStuff };
+      product.state = state;
+      product.props = <any>{
+        product: productStuff
+      };
+      product.updateAlias = updateAlias;
+      product.onUpdate();
+
+      expect(product.state).to.eql(newState);
+      expect(updateAlias).to.be.calledWith('product', newState);
+    });
+  })
 });
