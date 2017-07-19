@@ -1,13 +1,10 @@
 import Product from '../../src/product';
 import suite from './_suite';
 
-suite('Product', ({ expect, spy, itShouldBeConfigurable, itShouldHaveAlias }) => {
+suite('Product', ({ expect, spy }) => {
   let product: Product;
 
   beforeEach(() => product = new Product());
-
-  itShouldBeConfigurable(Product);
-  itShouldHaveAlias(Product, 'product');
 
   describe('constructor()', () => {
     describe('props', () => {

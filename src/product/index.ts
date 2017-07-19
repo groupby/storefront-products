@@ -1,6 +1,5 @@
-import { alias, configurable, tag, Store, Tag } from '@storefront/core';
+import { alias, tag, Store, Tag } from '@storefront/core';
 
-@configurable
 @alias('product')
 @tag('gb-product', require('./index.html'))
 class Product {
