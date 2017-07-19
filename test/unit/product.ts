@@ -79,15 +79,15 @@ suite('Product', ({ expect, spy }) => {
       const productStuff = { c: 'd' };
       const updateAlias = spy();
       const newState = { ...state, ...productStuff };
-  product.state = state;
-  product.props = <any>{
-    product: productStuff
-  };
-  product.updateAlias = updateAlias;
-  product.onUpdate();
+      product.state = state;
+      product.props = <any>{
+        product: productStuff
+      };
+      product.updateAlias = updateAlias;
+      product.onUpdate();
 
-  expect(product.state).to.eql(newState);
-  expect(updateAlias).to.be.calledWith('product', newState);
-});
-  })
+      expect(product.state).to.eql(newState);
+      expect(updateAlias).to.be.calledWith('product', newState);
+    });
+  });
 });
