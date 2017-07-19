@@ -89,5 +89,5 @@ suite('Product', ({ expect, spy }) => {
       expect(product.state).to.eql(newState);
       expect(updateAlias).to.be.calledWith('product', newState);
     });
-  })
+  });
 });
