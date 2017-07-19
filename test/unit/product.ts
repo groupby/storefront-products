@@ -1,10 +1,13 @@
 import Product from '../../src/product';
 import suite from './_suite';
 
-suite('Product', ({ expect, spy }) => {
+suite('Product', ({ expect, spy, itShouldBeConfigurable, itShouldHaveAlias }) => {
   let product: Product;
 
   beforeEach(() => product = new Product());
+
+  itShouldBeConfigurable(Product);
+  itShouldHaveAlias(Product, 'product');
 
   describe('constructor()', () => {
     describe('props', () => {
@@ -79,15 +82,15 @@ suite('Product', ({ expect, spy }) => {
       const productStuff = { c: 'd' };
       const updateAlias = spy();
       const newState = { ...state, ...productStuff };
-      product.state = state;
-      product.props = <any>{
-        product: productStuff
-      };
-      product.updateAlias = updateAlias;
-      product.onUpdate();
+  product.state = state;
+  product.props = <any>{
+    product: productStuff
+  };
+  product.updateAlias = updateAlias;
+  product.onUpdate();
 
-      expect(product.state).to.eql(newState);
-      expect(updateAlias).to.be.calledWith('product', newState);
-    });
+  expect(product.state).to.eql(newState);
+  expect(updateAlias).to.be.calledWith('product', newState);
+});
   })
 });
