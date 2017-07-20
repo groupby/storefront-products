@@ -27,27 +27,27 @@ This module is meant to be used in a `node` environment which is bundled for use
 Use `npm` or `yarn` to install in a `node` project that uses `webpack`, `browserify` or similar.
 
 ```sh
-npm install --save @storefront/paging
+npm install --save @storefront/products
 # or
-yarn add @storefront/paging
+yarn add @storefront/products
 ```
 
 ## Usage
 
-This module provides the `<gb-paging>` component for use with StoreFront.
+This module provides the `<gb-products>` component for use with StoreFront.
 
 ### Mount tag
 
 ```html
 <!-- index.html -->
 <body>
-  <gb-paging></gb-paging>
+  <gb-products></gb-products>
 </body>
 ```
 
 ```js
 // index.js
-storefront.mount('gb-paging');
+storefront.mount('gb-products');
 ```
 
 ## Running the tests
