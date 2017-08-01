@@ -35,7 +35,7 @@ class Product {
 
 interface Product extends Tag<Product.Props, Product.State> { }
 namespace Product {
-  export interface Props {
+  export interface Props extends Tag.Props {
     product: {
       data: any;
       variants: any[];
