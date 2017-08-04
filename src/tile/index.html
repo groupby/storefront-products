@@ -1,10 +1,8 @@
 <div class="gb-product-tile">
-  <img riot-src="{ $product.data.image }" alt="" class="gb-product-tile__image">
+  <a href="{ $product.link() }" onclick="{ $product.onClick }"><img riot-src="{ $product.data.image }" alt="" class="gb-product-tile__image"></a>
   <div class="gb-product-tile__content">
-    <div class="gb-product-tile__content__header">
-      <h3 class="gb-product-tile__content__title">{ $product.data.title }</h3>
-      <span class="gb-product-tile__content__price">{ $product.data.price }</span>
-    </div>
+    <h3 class="gb-product-tile__content__title"><a href="{ $product.link() }" onclick="{ $product.onClick }">{ $product.data.title }</a></h3>
+    <span class="gb-product-tile__content__price">{ $product.data.price }</span>
     <div class="gb-product-tile__content__description">
       { $product.data.shortDescription }
     </div>
