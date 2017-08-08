@@ -68,5 +68,8 @@
   },
   "peerDependencies": {
     "@storefront/core": "~1.10.4"
+  },
+  "dependencies": {
+    "@storefront/core": "~1.10.4"
   }
 }
