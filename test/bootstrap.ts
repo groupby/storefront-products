@@ -5,4 +5,5 @@ bootstrap(chai, __dirname, [
   '../src/product/index.html',
   '../src/products/index.html',
   '../src/simple-card/index.html',
+  '../src/tile/index.html'
 ]);
