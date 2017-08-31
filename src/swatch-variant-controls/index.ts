@@ -10,9 +10,9 @@ class SwatchVariantControls {
     this.props.onSelect && this.props.onSelect(isActive ? index : -1)
 }
 
-interface SwatchVariantControls extends Tag { }
+interface SwatchVariantControls extends Tag<SwatchVariantControls.Props> { }
 namespace SwatchVariantControls {
-  export interface Props {
+  export interface Props extends Tag.Props {
     onSelect(index: number, persist?: boolean);
   }
 }

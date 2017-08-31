@@ -23,7 +23,7 @@ suite('Products', ({ expect, spy, stub, itShouldBeConfigurable, itShouldHaveAlia
 
     describe('state', () => {
       it('should have initial value', () => {
-        expect(products.state).to.eql({ products: [] });
+        expect(products.state).to.eql({ products: [], variant: {} });
       });
     });
   });
@@ -32,11 +32,36 @@ suite('Products', ({ expect, spy, stub, itShouldBeConfigurable, itShouldHaveAlia
     it('should listen for PRODUCTS_UPDATED', () => {
       const on = spy();
       products.flux = <any>{ on };
-      products.expose = () => null;
+      products.props = {};
 
       products.init();
 
       expect(on).to.be.calledWith(Events.PRODUCTS_UPDATED, products.updateProducts);
+    });
+
+    it('should mixin props to state', () => {
+      const field = 'color';
+      const display = 'swatch';
+      products.flux = <any>{ on: () => null };
+      products.state = <any>{ a: 'b' };
+      products.props = <any>{ variantField: field, variantDisplay: display };
+
+      products.init();
+
+      expect(products.state).to.eql({ a: 'b', variant: { field, display } });
+    });
+  });
+
+  describe('onUpdate()', () => {
+    it('should mixin props to state', () => {
+      const field = 'color';
+      const display = 'swatch';
+      products.state = <any>{ a: 'b' };
+      products.props = <any>{ variantField: field, variantDisplay: display };
+
+      products.onUpdate();
+
+      expect(products.state).to.eql({ a: 'b', variant: { field, display } });
     });
   });
 
