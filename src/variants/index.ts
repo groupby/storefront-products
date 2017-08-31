@@ -21,12 +21,7 @@ class Variants {
       this.update({ selected: this.props.product.variants[this.persistent] });
     } else if (index < this.props.product.variants.length) {
       const selected = this.props.product.variants[index];
-
-      if (persist) {
-        this.update({ selected, persistent: index });
-      } else {
-        this.update({ selected });
-      }
+      this.update(persist ? { selected, persistent: index } : { selected });
     }
   }
 }
