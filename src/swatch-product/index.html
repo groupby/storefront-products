@@ -3,6 +3,6 @@
     <gb-simple-product-card></gb-simple-product-card>
   </yield>
   <yield to="controls">
-    <gb-swatch-variant-controls on-select="{ onSelect }" options="{ props.product.data.colors }"></gb-swatch-variant-controls>
+    <gb-swatch-variant-controls on-select="{ onSelect }" options="{ $swatchProduct.options() }"></gb-swatch-variant-controls>
   </yield>
 </gb-variants>
