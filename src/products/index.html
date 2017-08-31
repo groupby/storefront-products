@@ -1,5 +1,6 @@
 <yield>
   <gb-list items="{ $products.products }" layout="grid">
-    <gb-swatch-product product="{ $item }"></gb-swatch-product>
+    <gb-swatch-product product="{ { data: $item.data, variants: [$item.data, { color: { label: 'My Color', color: '#aaa' }, price: 1.32, title: 'My Variant' }, { color: { label: 'Other Color', color: '#dadada' }, price: 130.20, title: 'Other Variant' }] } }"
+      field="color"></gb-swatch-product>
   </gb-list>
 </yield>
