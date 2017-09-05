@@ -5,6 +5,7 @@ import Product from '../product';
 class SwatchVariantControls {
 
   $product: Product.State;
+
   options = () => this.$product.variants.map((variant) => utils.dot.get(variant, this.props.field));
 
   onClick = (index: number) =>

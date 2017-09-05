@@ -22,9 +22,6 @@ class Product {
       });
     },
     onClick: () => this.flux.details(this.state.data.id, this.state.data.title),
-    // options: () => {
-    //   return this.props.product.variants.map((variant) => utils.dot.get(variant, this.props.field));
-    // },
     onSelect: (index, persist) => {
       if (index === -1) {
         this.set({ selected: this.props.product.variants[this.state.persistent] });
@@ -61,7 +58,6 @@ namespace Product {
     persistent: number;
     data: any;
     variants: any[];
-    // options: () => any[];
     field?: string;
     link(): string;
     onClick(): void;

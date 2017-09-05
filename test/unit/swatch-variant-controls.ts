@@ -6,46 +6,55 @@ suite('SwatchVariantControls', ({ expect, spy }) => {
 
   beforeEach(() => swatchControls = new SwatchVariantControls());
 
+  describe('options()', () => {
+    it('should return an array of variant values', () => {
+      swatchControls.$product = <any>{ variants: [{ color: 'red' }, { color: 'blue' }] };
+      swatchControls.props = <any>{ field: 'color' };
+
+      expect(swatchControls.options()).to.eql(['red', 'blue']);
+    });
+  });
+
   describe('onClick()', () => {
-    it('should call props.onSelect() with persistence', () => {
+    it('should call $product.onSelect() with persistence', () => {
       const index = 3;
       const onSelect = spy();
-      swatchControls.props = <any>{ onSelect };
+      swatchControls.$product = <any>{ onSelect };
 
       swatchControls.onClick(index);
 
       expect(onSelect).to.be.calledWithExactly(index, true);
     });
 
-    it('should call not props.onSelect() if nonexistent', () => {
-      swatchControls.props = <any>{};
+    it('should not call $product.onSelect() if nonexistent', () => {
+      swatchControls.$product = <any>{};
 
       expect(() => swatchControls.onClick(2)).to.not.throw();
     });
   });
 
   describe('onSelect()', () => {
-    it('should call props.onSelect() with index when selecting', () => {
+    it('should call $product.onSelect() with index when selecting', () => {
       const index = 7;
       const onSelect = spy();
-      swatchControls.props = <any>{ onSelect };
+      swatchControls.$product = <any>{ onSelect };
 
       swatchControls.onSelect(index, true);
 
       expect(onSelect).to.be.calledWithExactly(index);
     });
 
-    it('should call props.onSelect() with index -1 deselecting', () => {
+    it('should call $product.onSelect() with index -1 deselecting', () => {
       const onSelect = spy();
-      swatchControls.props = <any>{ onSelect };
+      swatchControls.$product = <any>{ onSelect };
 
       swatchControls.onSelect(7, false);
 
       expect(onSelect).to.be.calledWithExactly(-1);
     });
 
-    it('should call not props.onSelect() if nonexistent', () => {
-      swatchControls.props = <any>{};
+    it('should call not $product.onSelect() if nonexistent', () => {
+      swatchControls.$product = <any>{};
 
       expect(() => swatchControls.onSelect(2, true)).to.not.throw();
     });
