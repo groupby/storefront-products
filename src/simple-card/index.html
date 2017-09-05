@@ -3,3 +3,4 @@
 </gb-link>
 <gb-link url="{ $product.link() }" on-click="{ $product.onClick }">{ $product.data.title }</gb-link>
 <p>{ $product.data.price }</p>
+<div data-is="gb-{ $product.display || 'swatch' }-variant-controls" field="{ $product.field }"></div>

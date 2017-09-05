@@ -1,4 +1,4 @@
-import { alias, tag, Store, Tag } from '@storefront/core';
+import { alias, tag, utils, Store, Tag } from '@storefront/core';
 
 @alias('product')
 @tag('gb-product', require('./index.html'))
@@ -13,6 +13,7 @@ class Product {
   state: Product.State = {
     data: {},
     variants: [],
+    persistent: 0,
     link: () => {
       return this.services.url.beautifier.build('details', {
         id: this.state.data.id,
@@ -20,15 +21,26 @@ class Product {
         variants: []
       });
     },
-    onClick: () => this.flux.details(this.state.data.id, this.state.data.title)
+    onClick: () => this.flux.details(this.state.data.id, this.state.data.title),
+    // options: () => {
+    //   return this.props.product.variants.map((variant) => utils.dot.get(variant, this.props.field));
+    // },
+    onSelect: (index, persist) => {
+      if (index === -1) {
+        this.set({ selected: this.props.product.variants[this.state.persistent] });
+      } else if (index < this.props.product.variants.length) {
+        const selected = this.props.product.variants[index];
+        this.set(persist ? { selected, persistent: index } : { selected });
+      }
+    }
   };
 
   init() {
-    this.state = { ...this.state, ...this.props.product };
+    this.state = { ...this.state, ...this.props.product, field: this.props.field };
   }
 
   onUpdate() {
-    this.state = { ...this.state, ...this.props.product };
+    this.state = { ...this.state, ...this.props.product, data: this.state.selected || this.state.data };
     this.updateAlias('product', this.state);
   }
 }
@@ -40,13 +52,20 @@ namespace Product {
       data: any;
       variants: any[];
     };
+    field?: string;
+    display?: string;
   }
 
   export interface State {
+    selected?: any;
+    persistent: number;
     data: any;
     variants: any[];
+    // options: () => any[];
+    field?: string;
     link(): string;
     onClick(): void;
+    onSelect(index: number, persist?: boolean): void;
   }
 }
 

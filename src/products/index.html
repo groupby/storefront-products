@@ -1,5 +1,5 @@
 <yield>
   <gb-list items="{ $products.products }" layout="grid">
-    <div data-is="{ $products.variant.field ? 'gb-variant' : 'gb-product' }" display="{ $products.variant.display }" field="{ $products.variant.field }" product="{ $item }"></div>
+    <gb-product product="{ $item }" display="{ $products.variant.display }" field="{ $products.variant.field }"></gb-product>
   </gb-list>
 </yield>
