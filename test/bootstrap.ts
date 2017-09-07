@@ -6,7 +6,5 @@ bootstrap(chai, __dirname, [
   '../src/products/index.html',
   '../src/simple-card/index.html',
   '../src/swatch-variant-controls/index.html',
-  '../src/tile/index.html',
-  '../src/variant/index.html',
-  '../src/variants/index.html',
+  '../src/tile/index.html'
 ]);
