@@ -108,13 +108,12 @@ suite('Product', ({ expect, spy }) => {
 
   describe('init()', () => {
     it('should mixin product to state', () => {
-      const field = 'eyy';
-      product.props = <any>{ product: { a: 'b' }, field };
+      product.props = <any>{ product: { a: 'b' } };
       product.state = <any>{ c: 'd' };
 
       product.init();
 
-      expect(product.state).to.eql({ a: 'b', c: 'd', field });
+      expect(product.state).to.eql({ a: 'b', c: 'd' });
     });
   });
 

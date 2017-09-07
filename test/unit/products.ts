@@ -23,7 +23,7 @@ suite('Products', ({ expect, spy, stub, itShouldBeConfigurable, itShouldHaveAlia
 
     describe('state', () => {
       it('should have initial value', () => {
-        expect(products.state).to.eql({ products: [], variant: {} });
+        expect(products.state).to.eql({ products: [] });
       });
     });
   });
@@ -40,28 +40,13 @@ suite('Products', ({ expect, spy, stub, itShouldBeConfigurable, itShouldHaveAlia
     });
 
     it('should mixin props to state', () => {
-      const field = 'color';
-      const display = 'swatch';
+      const state = <any>{ a: 'b' };
       products.flux = <any>{ on: () => null };
-      products.state = <any>{ a: 'b' };
-      products.props = <any>{ variantField: field, variantDisplay: display };
+      products.state = state;
 
       products.init();
 
-      expect(products.state).to.eql({ a: 'b', variant: { field, display } });
-    });
-  });
-
-  describe('onUpdate()', () => {
-    it('should mixin props to state', () => {
-      const field = 'color';
-      const display = 'swatch';
-      products.state = <any>{ a: 'b' };
-      products.props = <any>{ variantField: field, variantDisplay: display };
-
-      products.onUpdate();
-
-      expect(products.state).to.eql({ a: 'b', variant: { field, display } });
+      expect(products.state).to.eql(state);
     });
   });
 
