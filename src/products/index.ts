@@ -7,17 +7,11 @@ class Products {
 
   structure: Structure = this.config.structure;
   state: Products.State = {
-    products: [],
-    variant: {}
+    products: []
   };
 
   init() {
     this.flux.on(Events.PRODUCTS_UPDATED, this.updateProducts);
-    this.state = { ...this.state, variant: { field: this.props.variantField, display: this.props.variantDisplay } };
-  }
-
-  onUpdate() {
-    this.state = { ...this.state, variant: { field: this.props.variantField, display: this.props.variantDisplay } };
   }
 
   updateProducts = (products: Store.Product[]) =>
@@ -26,19 +20,11 @@ class Products {
     })
 }
 
-interface Products extends Tag<Products.Props, Products.State> { }
+interface Products extends Tag<any, Products.State> { }
 namespace Products {
-  export interface Props extends Tag.Props {
-    variantField?: string;
-    variantDisplay?: string;
-  }
 
   export interface State {
     products: any[];
-    variant: {
-      field?: string
-      display?: string;
-    };
   }
 }
 

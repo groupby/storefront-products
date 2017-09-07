@@ -1,4 +1,4 @@
-import { alias, tag, utils, Store, Tag } from '@storefront/core';
+import { alias, tag, Store, Tag } from '@storefront/core';
 
 @alias('product')
 @tag('gb-product', require('./index.html'))
@@ -33,7 +33,7 @@ class Product {
   };
 
   init() {
-    this.state = { ...this.state, ...this.props.product, field: this.props.field };
+    this.state = { ...this.state, ...this.props.product };
   }
 
   onUpdate() {
@@ -49,7 +49,6 @@ namespace Product {
       data: any;
       variants: any[];
     };
-    field?: string;
     display?: string;
   }
 
@@ -58,7 +57,6 @@ namespace Product {
     persistent: number;
     data: any;
     variants: any[];
-    field?: string;
     link(): string;
     onClick(): void;
     onSelect(index: number, persist?: boolean): void;
