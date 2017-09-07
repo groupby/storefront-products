@@ -22,7 +22,6 @@ class Products {
 
 interface Products extends Tag<any, Products.State> { }
 namespace Products {
-
   export interface State {
     products: any[];
   }

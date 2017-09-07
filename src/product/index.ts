@@ -49,7 +49,6 @@ namespace Product {
       data: any;
       variants: any[];
     };
-    display?: string;
   }
 
   export interface State {
