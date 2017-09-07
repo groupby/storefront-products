@@ -6,14 +6,7 @@ class SwatchVariantControls {
 
   $product: Product.State;
 
-  init() {
-    console.log(this.options());
-  }
-
-  options = () => this.$product.variants.map((variant) => {
-    console.log(utils.dot.get(variant, this.props.field))
-    return utils.dot.get(variant, this.props.field)
-  });
+  options = () => this.$product.variants.map((variant) => utils.dot.get(variant, this.props.field));
 
   onClick = (index: number) =>
     this.$product.onSelect && this.$product.onSelect(index, true)
