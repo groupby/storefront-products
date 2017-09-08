@@ -32,11 +32,21 @@ suite('Products', ({ expect, spy, stub, itShouldBeConfigurable, itShouldHaveAlia
     it('should listen for PRODUCTS_UPDATED', () => {
       const on = spy();
       products.flux = <any>{ on };
-      products.expose = () => null;
+      products.props = {};
 
       products.init();
 
       expect(on).to.be.calledWith(Events.PRODUCTS_UPDATED, products.updateProducts);
+    });
+
+    it('should mixin props to state', () => {
+      const state = <any>{ a: 'b' };
+      products.flux = <any>{ on: () => null };
+      products.state = state;
+
+      products.init();
+
+      expect(products.state).to.eql(state);
     });
   });
 
