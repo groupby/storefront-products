@@ -16,12 +16,11 @@ class Product {
     persistent: 0,
     link: () => {
       return this.services.url.beautifier.build('details', {
-        id: this.state.data.id,
-        title: this.state.data.title,
+        data: this.state.data,
         variants: []
       });
     },
-    onClick: () => this.flux.details(this.state.data.id, this.state.data.title),
+    onClick: () => this.flux.details(this.state.data),
     onSelect: (index, persist) => {
       if (index === -1) {
         this.set({ selected: this.props.product.variants[this.state.persistent] });

@@ -27,10 +27,8 @@ suite('Product', ({ expect, spy }) => {
 
       describe('link()', () => {
         it('should call build with state', () => {
-          const id = '123';
-          const title = 'idk';
           const build = spy();
-          product.state.data = { id, title };
+          const data = product.state.data = { id: 3, title: 'grip' };
           product.services = <any>{
             url: {
               beautifier: {
@@ -41,23 +39,21 @@ suite('Product', ({ expect, spy }) => {
 
           product.state.link();
 
-          expect(build).to.be.calledWith('details', { id, title, variants: [] });
+          expect(build).to.be.calledWith('details', { data, variants: [] });
         });
       });
 
       describe('onClick()', () => {
         it('should call flux.details with id and title', () => {
-          const id = '123';
-          const title = 'idk';
           const details = spy();
-          product.state.data = { id, title };
+          const data = product.state.data = { id: '123', title: 'idk' };
           product.flux = <any>{
             details
           };
 
           product.state.onClick();
 
-          expect(details).to.be.calledWith(id, title);
+          expect(details).to.be.calledWith(data);
         });
       });
 
