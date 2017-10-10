@@ -67,14 +67,16 @@ suite('Products', ({ expect, spy, stub, itShouldBeConfigurable, itShouldHaveAlia
 
   describe('updateProducts()', () => {
     it('should set products', () => {
+      const idField = 'sku'
       const set = products.set = spy();
       const select = products.select = spy(() => ['a', 'b', 'c']);
       const transform = products.productTransformer = spy(() => 'x');
+      products.config = <any>{ recommendations: { idField } };
 
       products.updateProducts();
 
       expect(set).to.be.calledWith({ products: ['x', 'x', 'x'] });
-      expect(select).to.be.calledWithExactly(Selectors.productsWithMetadata);
+      expect(select).to.be.calledWithExactly(Selectors.productsWithMetadata, idField);
       expect(transform).to.have.callCount(3)
         .and.calledWith('a')
         .and.calledWith('b')
