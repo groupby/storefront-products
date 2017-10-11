@@ -98,6 +98,21 @@ suite('Product', ({ expect, spy }) => {
 
           expect(set).to.be.calledWith({ selected: newVariant, persistent: index });
         });
+
+        it('should set not be called', () => {
+          const set = product.set = spy();
+          const newVariant = { a: 'b' };
+          const index = 100000;
+          product.props.product = {
+            data: {},
+            variants: [{ c: 'd' }, newVariant]
+          };
+
+          product.state.onSelect(index, true);
+
+          expect(set).to.not.be.called;
+        });
+ 
       });
     });
   });
