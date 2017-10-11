@@ -99,7 +99,7 @@ suite('Product', ({ expect, spy }) => {
           expect(set).to.be.calledWith({ selected: newVariant, persistent: index });
         });
 
-        it('set to not be called', () => {
+        it('should not call set()', () => {
           const set = product.set = spy();
           const newVariant = { a: 'b' };
           const index = 100000;
