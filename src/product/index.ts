@@ -36,7 +36,7 @@ class Product {
   }
 
   onUpdate() {
-    this.state = { ...this.state, ...this.props.product, data: this.state.selected || this.state.data };
+    this.state = { ...this.state, ...this.props.product, data: this.state.selected || this.props.product.data || this.state.data };
     this.updateAlias('product', this.state);
   }
 }
