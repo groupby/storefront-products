@@ -1,4 +1,17 @@
-import { alias, configurable, tag, Events, ProductTransformer, Store, Structure, Tag } from '@storefront/core';
+import {
+  alias,
+  configurable,
+  tag,
+  Events,
+  ProductTransformer,
+  Selectors,
+  Store,
+  Structure,
+  Tag
+} from '@storefront/core';
+import Product = Store.ProductWithMetadata;
+
+export type Transformer = (product: Product) => { data: object, variants: object[], meta: any };
 
 @configurable
 @alias('products')
@@ -9,14 +22,17 @@ class Products {
   state: Products.State = {
     products: []
   };
+  productTransformer: Transformer = ({ data, meta }: Product) =>
+    ({ ...ProductTransformer.transformer(this.structure)(data), meta })
 
   init() {
     this.flux.on(Events.PRODUCTS_UPDATED, this.updateProducts);
   }
 
-  updateProducts = (products: Store.Product[]) =>
+  updateProducts = () =>
     this.set({
-      products: products.map(ProductTransformer.transformer(this.structure))
+      products: this.select(Selectors.productsWithMetadata, this.config.recommendations.idField)
+        .map(this.productTransformer)
     })
 }
 

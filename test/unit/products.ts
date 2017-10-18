@@ -1,4 +1,4 @@
-import { Events, ProductTransformer } from '@storefront/core';
+import { Events, ProductTransformer, Selectors } from '@storefront/core';
 import Products from '../../src/products';
 import suite from './_suite';
 
@@ -24,6 +24,21 @@ suite('Products', ({ expect, spy, stub, itShouldBeConfigurable, itShouldHaveAlia
     describe('state', () => {
       it('should have initial value', () => {
         expect(products.state).to.eql({ products: [] });
+      });
+    });
+
+    describe('productTransformer()', () => {
+      it('should wrap ProductTransformer', () => {
+        const data: any = { a: 'b' };
+        const meta: any = { c: 'd' };
+        const transformed = { y: 'z' };
+        const structure = products.structure = <any>{ e: 'f' };
+        const transformer = spy(() => ({ data: transformed }));
+        const transformerFactory = stub(ProductTransformer, 'transformer').returns(transformer);
+
+        expect(products.productTransformer({ data, meta })).to.eql({ data: transformed, meta });
+        expect(transformerFactory).to.be.calledWithExactly(structure);
+        expect(transformer).to.be.calledWithExactly(data);
       });
     });
   });
@@ -52,16 +67,20 @@ suite('Products', ({ expect, spy, stub, itShouldBeConfigurable, itShouldHaveAlia
 
   describe('updateProducts()', () => {
     it('should set products', () => {
-      const newProducts: any[] = ['a', 'b', 'c'];
+      const idField = 'sku'
       const set = products.set = spy();
-      const transform = spy(() => 'x');
-      const transformer = stub(ProductTransformer, 'transformer').returns(transform);
+      const select = products.select = spy(() => ['a', 'b', 'c']);
+      const transform = products.productTransformer = spy(() => 'x');
+      products.config = <any>{ recommendations: { idField } };
 
-      products.updateProducts(newProducts);
+      products.updateProducts();
 
       expect(set).to.be.calledWith({ products: ['x', 'x', 'x'] });
-      expect(transformer).to.be.calledWith(STRUCTURE);
-      expect(transform).to.be.calledWith('a').calledWith('b').calledWith('c');
+      expect(select).to.be.calledWithExactly(Selectors.productsWithMetadata, idField);
+      expect(transform).to.have.callCount(3)
+        .and.calledWith('a')
+        .and.calledWith('b')
+        .and.calledWith('c');
     });
   });
 });
