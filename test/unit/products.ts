@@ -67,7 +67,7 @@ suite('Products', ({ expect, spy, stub, itShouldBeConfigurable, itShouldHaveAlia
 
   describe('updateProducts()', () => {
     it('should set products', () => {
-      const idField = 'sku'
+      const idField = 'sku';
       const set = products.set = spy();
       const select = products.select = spy(() => ['a', 'b', 'c']);
       const transform = products.productTransformer = spy(() => 'x');
