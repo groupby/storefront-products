@@ -76,7 +76,7 @@ suite('Products', ({ expect, spy, stub, itShouldBeConfigurable, itShouldHaveAlia
       products.updateProducts();
 
       expect(set).to.be.calledWith({ products: ['x', 'x', 'x'] });
-      expect(select).to.be.calledWithExactly(Selectors.products);
+      expect(select).to.be.calledWithExactly(Selectors.productsWithPastPurchase, idField);
       expect(transform).to.have.callCount(3)
         .and.calledWith('a')
         .and.calledWith('b')

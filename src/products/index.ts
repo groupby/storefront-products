@@ -31,7 +31,7 @@ class Products {
 
   updateProducts = () =>
     this.set({
-      products: this.select(Selectors.products)
+      products: this.select(Selectors.productsWithPastPurchase, this.config.recommendations.idField)
         .map(this.productTransformer)
     })
 }
