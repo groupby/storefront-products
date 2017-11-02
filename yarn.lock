@@ -39,7 +39,7 @@
     conventional-changelog "0.0.17"
     github-url-from-git "^1.4.0"
 
-"@storefront/core@1.29.5":
+"@storefront/core@~1.29.5":
   version "1.29.5"
   resolved "https://registry.yarnpkg.com/@storefront/core/-/core-1.29.5.tgz#550989f631fb220671ab1791ea053bf64008264d"
   dependencies:
