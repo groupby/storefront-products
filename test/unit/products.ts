@@ -36,7 +36,7 @@ suite('Products', ({ expect, spy, stub, itShouldBeConfigurable, itShouldHaveAlia
         const transformer = spy(() => ({ data: transformed }));
         const transformerFactory = stub(ProductTransformer, 'transformer').returns(transformer);
 
-        expect(products.productTransformer({ data, meta })).to.eql({ data: transformed, meta });
+        expect(products.productTransformer({ data, index: 1, meta })).to.eql({ data: transformed, meta });
         expect(transformerFactory).to.be.calledWithExactly(structure);
         expect(transformer).to.be.calledWithExactly(data);
       });
