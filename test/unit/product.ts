@@ -50,9 +50,7 @@ suite('Product', ({ expect, spy }) => {
           const detailsWithRouting = spy();
           const data = product.state.data = { id: '123', title: 'idk' };
           const select = product.select = spy(() => prod);
-          product.flux = <any>{
-            detailsWithRouting
-          };
+          product.flux = <any>{ detailsWithRouting };
 
           product.state.onClick();
 
