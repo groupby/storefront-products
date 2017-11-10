@@ -20,7 +20,7 @@ class Product {
         variants: []
       });
     },
-    onClick: () => this.flux.detailsWithRouting(this.select(Selectors.productWithId, this.state.data.id)),
+    onClick: () => this.flux.detailsWithRouting(this.select(Selectors.findProduct, this.state.data.id)),
     onSelect: (index, persist) => {
       if (index === -1) {
         this.set({ selected: this.props.product.variants[this.state.persistent] });

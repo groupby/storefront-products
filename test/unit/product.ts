@@ -54,7 +54,7 @@ suite('Product', ({ expect, spy }) => {
 
           product.state.onClick();
 
-          expect(select).to.be.calledWith(Selectors.productWithId, data.id);
+          expect(select).to.be.calledWith(Selectors.findProduct, data.id);
           expect(detailsWithRouting).to.be.calledWith(prod);
         });
       });
