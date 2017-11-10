@@ -45,7 +45,7 @@ suite('Product', ({ expect, spy }) => {
       });
 
       describe('onClick()', () => {
-        it('should call flux.details with id and title', () => {
+        it('should call flux.detailsWithRouting with id and title', () => {
           const prod = 'product';
           const detailsWithRouting = spy();
           const data = product.state.data = { id: '123', title: 'idk' };
