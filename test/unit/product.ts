@@ -1,3 +1,4 @@
+import { Selectors } from '@storefront/core';
 import Product from '../../src/product';
 import suite from './_suite';
 
@@ -44,16 +45,17 @@ suite('Product', ({ expect, spy }) => {
       });
 
       describe('onClick()', () => {
-        it('should call flux.details with id and title', () => {
-          const details = spy();
+        it('should call flux.detailsWithRouting with id and title', () => {
+          const prod = 'product';
+          const detailsWithRouting = spy();
           const data = product.state.data = { id: '123', title: 'idk' };
-          product.flux = <any>{
-            details
-          };
+          const select = product.select = spy(() => prod);
+          product.flux = <any>{ detailsWithRouting };
 
           product.state.onClick();
 
-          expect(details).to.be.calledWith(data);
+          expect(select).to.be.calledWith(Selectors.findProduct, data.id);
+          expect(detailsWithRouting).to.be.calledWith(prod);
         });
       });
 
