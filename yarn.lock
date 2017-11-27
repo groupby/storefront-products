@@ -39,7 +39,7 @@
     conventional-changelog "0.0.17"
     github-url-from-git "^1.4.0"
 
-"@storefront/core@~1.30.3":
+"@storefront/core@~1.30.0":
   version "1.30.3"
   resolved "https://registry.yarnpkg.com/@storefront/core/-/core-1.30.3.tgz#65dc1530d751aa1e98014c3362ed90e4423a5d6a"
   dependencies:
@@ -3545,8 +3545,8 @@ ripemd160@^2.0.0, ripemd160@^2.0.1:
     inherits "^2.0.1"
 
 rollup@^0.51.2:
-  version "0.51.7"
-  resolved "https://registry.yarnpkg.com/rollup/-/rollup-0.51.7.tgz#3c387316ceca3655727cbef716f2733aa15c46df"
+  version "0.51.8"
+  resolved "https://registry.yarnpkg.com/rollup/-/rollup-0.51.8.tgz#58bd0b642885f4770b5f93cc64f14e4233c2236d"
 
 run-async@^0.1.0:
   version "0.1.0"
