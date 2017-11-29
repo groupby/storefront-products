@@ -1,4 +1,4 @@
-import { alias, tag, Selectors, Store, Tag } from '@storefront/core';
+import { alias, tag, ProductTransformer, Store, Tag } from '@storefront/core';
 
 @alias('product')
 @tag('gb-product', require('./index.html'))
@@ -20,7 +20,7 @@ class Product {
         variants: []
       });
     },
-    onClick: () => this.flux.detailsWithRouting(this.select(Selectors.findProduct, this.state.data.id)),
+    onClick: () => this.flux.detailsWithRouting(this.select(ProductTransformer.findProduct, this.state.data.id, this.config.structure)),
     onSelect: (index, persist) => {
       if (index === -1) {
         this.set({ selected: this.props.product.variants[this.state.persistent] });
