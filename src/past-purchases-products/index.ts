@@ -11,7 +11,7 @@ class PastPurchasesProducts extends Products {
   updateProducts: any = (products: Store.ProductWithMetadata[]) =>
     this.set({ products: this.mapProducts(products) })
 
-  mapProducts(products: Store.ProductWithMetadata[]) {
+  mapProducts = (products: Store.ProductWithMetadata[]) => {
    return products.map(this.productTransformer);
   }
 }
