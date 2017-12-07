@@ -47,6 +47,7 @@ suite('Products', ({ expect, spy, stub, itShouldBeConfigurable, itShouldHaveAlia
     it('should listen for PRODUCTS_UPDATED', () => {
       const on = spy();
       products.flux = <any>{ on };
+      products.props = {};
       products.props = { storeSection: StoreSections.SEARCH };
 
       products.init();
@@ -68,6 +69,8 @@ suite('Products', ({ expect, spy, stub, itShouldBeConfigurable, itShouldHaveAlia
       const state = <any>{ a: 'b' };
       products.flux = <any>{ on: () => null };
       products.state = state;
+      products.props = {};
+      products.props.storeSection = StoreSections.DEFAULT;
 
       products.init();
 
@@ -82,6 +85,8 @@ suite('Products', ({ expect, spy, stub, itShouldBeConfigurable, itShouldHaveAlia
       const select = products.select = spy(() => ['a', 'b', 'c']);
       const transform = products.productTransformer = spy(() => 'x');
       products.config = <any>{ recommendations: { idField } };
+      products.props = {};
+      products.props.storeSection = StoreSections.DEFAULT;
 
       products.updateProducts();
 
