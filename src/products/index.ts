@@ -20,10 +20,6 @@ export type Transformer = (product: Product) => { data: object, variants: object
 class Products {
   structure: Structure = this.config.structure;
 
-  props: Products.Props = {
-    storeSection: StoreSections.DEFAULT
-  };
-
   state: Products.State = {
     products: []
   };
@@ -58,12 +54,8 @@ class Products {
   }
 }
 
-interface Products extends Tag<Products.Props, Products.State> { }
+interface Products extends Tag<Tag.Props, Products.State> { }
 namespace Products {
-  export interface Props extends Tag.Props {
-    storeSection: string;
-  }
-
   export interface State {
     products: any[];
   }
