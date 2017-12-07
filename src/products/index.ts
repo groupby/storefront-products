@@ -31,7 +31,7 @@ class Products {
       case StoreSections.PAST_PURCHASES:
         this.flux.on(Events.PAST_PURCHASE_PRODUCTS_UPDATED, this.updateProducts);
         break;
-      case StoreSections.DEFAULT:
+      case StoreSections.SEARCH:
         this.flux.on(Events.PRODUCTS_UPDATED, this.updateProducts);
     }
   }
@@ -41,7 +41,7 @@ class Products {
       case StoreSections.PAST_PURCHASES:
         this.set({ products: this.mapProducts(products) });
         break;
-      case StoreSections.DEFAULT:
+      case StoreSections.SEARCH:
         this.set({
           products: this.select(Selectors.productsWithPastPurchase, this.config.recommendations.idField)
             .map(this.productTransformer)
