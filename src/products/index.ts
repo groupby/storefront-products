@@ -23,8 +23,6 @@ class Products {
   state: Products.State = {
     products: []
   };
-  productTransformer: Transformer = ({ data, meta }: Product) =>
-    ({ ...ProductTransformer.transformer(this.structure)(data), meta })
 
   init() {
     switch (this.props.storeSection) {
@@ -36,6 +34,9 @@ class Products {
       break;
     }
   }
+
+  productTransformer: Transformer = ({ data, meta }: Product) =>
+    ({ ...ProductTransformer.transformer(this.structure)(data), meta })
 
   updateProducts = (products: any = []) => {
     switch (this.props.storeSection) {
