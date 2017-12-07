@@ -1,4 +1,4 @@
-import { Events, ProductTransformer, Selectors } from '@storefront/core';
+import { Events, ProductTransformer, Selectors, StoreSections } from '@storefront/core';
 import Products from '../../src/products';
 import suite from './_suite';
 
@@ -47,11 +47,21 @@ suite('Products', ({ expect, spy, stub, itShouldBeConfigurable, itShouldHaveAlia
     it('should listen for PRODUCTS_UPDATED', () => {
       const on = spy();
       products.flux = <any>{ on };
-      products.props = {};
+      products.props = { storeSection: StoreSections.SEARCH };
 
       products.init();
 
       expect(on).to.be.calledWith(Events.PRODUCTS_UPDATED, products.updateProducts);
+    });
+
+    it('should listen for PAST_PURCHASE_PRODUCTS_UPDATED', () => {
+      const on = spy();
+      products.flux = <any>{ on };
+      products.props = { storeSection: StoreSections.PAST_PURCHASES };
+
+      products.init();
+
+      expect(on).to.be.calledWith(Events.PAST_PURCHASE_PRODUCTS_UPDATED, products.updateProducts);
     });
 
     it('should mixin props to state', () => {
@@ -81,6 +91,30 @@ suite('Products', ({ expect, spy, stub, itShouldBeConfigurable, itShouldHaveAlia
         .and.calledWith('a')
         .and.calledWith('b')
         .and.calledWith('c');
+    });
+
+    it('should set products when storeSection is pastPurchases', () => {
+      const idField = 'sku';
+      const set = products.set = spy();
+      const productsArray = ['a', 'b', 'c'];
+      const mapProducts = products.mapProducts = spy(() => productsArray);
+      products.props = { storeSection: StoreSections.PAST_PURCHASES };
+
+      products.updateProducts(productsArray);
+
+      expect(set).to.be.calledWith({ products: productsArray });
+      expect(mapProducts).to.be.calledWithExactly(productsArray);
+    });
+  });
+
+  describe('mapProducts()', () => {
+    it('should call map with producttransformer', () => {
+      const map = spy();
+      const productsArray: any = { map };
+
+      products.mapProducts(productsArray);
+
+      expect(map).to.be.calledWithExactly(products.productTransformer);
     });
   });
 });

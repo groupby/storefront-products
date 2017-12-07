@@ -40,7 +40,7 @@ class Products {
     }
   }
 
-  updateProducts = (products: any) => {
+  updateProducts = (products: any = []) => {
     switch (this.props.storeSection) {
       case StoreSections.PAST_PURCHASES:
         this.set({ products: this.mapProducts(products) });
