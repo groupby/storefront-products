@@ -33,6 +33,7 @@ class Products {
         break;
       case StoreSections.SEARCH:
         this.flux.on(Events.PRODUCTS_UPDATED, this.updateProducts);
+      break;
     }
   }
 
@@ -46,6 +47,7 @@ class Products {
           products: this.select(Selectors.productsWithPastPurchase, this.config.recommendations.idField)
             .map(this.productTransformer)
         });
+        break;
     }
   }
 
