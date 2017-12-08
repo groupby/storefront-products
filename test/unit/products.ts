@@ -62,7 +62,7 @@ suite('Products', ({ expect, spy, stub, itShouldBeConfigurable, itShouldHaveAlia
 
       products.init();
 
-      expect(on).to.be.calledWith(Events.PAST_PURCHASE_PRODUCTS_UPDATED, products.updateProducts);
+      expect(on).to.be.calledWith(Events.PAST_PURCHASE_PRODUCTS_UPDATED, products.updatePastPurchaseProducts);
     });
 
     it('should mixin props to state', () => {
@@ -97,15 +97,16 @@ suite('Products', ({ expect, spy, stub, itShouldBeConfigurable, itShouldHaveAlia
         .and.calledWith('b')
         .and.calledWith('c');
     });
-
-    it('should set products when storeSection is pastPurchases', () => {
+  });
+  describe('updatePastPurchaseProducts()', () => {
+    it('should set past purchase products', () => {
       const idField = 'sku';
       const set = products.set = spy();
       const productsArray = ['a', 'b', 'c'];
       const mapProducts = products.mapProducts = spy(() => productsArray);
       products.props = { storeSection: StoreSections.PAST_PURCHASES };
 
-      products.updateProducts(productsArray);
+      products.updatePastPurchaseProducts(productsArray);
 
       expect(set).to.be.calledWith({ products: productsArray });
       expect(mapProducts).to.be.calledWithExactly(productsArray);

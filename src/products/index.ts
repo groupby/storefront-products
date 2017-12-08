@@ -27,30 +27,25 @@ class Products {
   init() {
     switch (this.props.storeSection) {
       case StoreSections.PAST_PURCHASES:
-        this.flux.on(Events.PAST_PURCHASE_PRODUCTS_UPDATED, this.updateProducts);
+        this.flux.on(Events.PAST_PURCHASE_PRODUCTS_UPDATED, this.updatePastPurchaseProducts);
         break;
       case StoreSections.SEARCH:
         this.flux.on(Events.PRODUCTS_UPDATED, this.updateProducts);
-      break;
+        break;
     }
   }
 
   productTransformer: Transformer = ({ data, meta }: Product) =>
     ({ ...ProductTransformer.transformer(this.structure)(data), meta })
 
-  updateProducts = (products: any = []) => {
-    switch (this.props.storeSection) {
-      case StoreSections.PAST_PURCHASES:
-        this.set({ products: this.mapProducts(products) });
-        break;
-      case StoreSections.SEARCH:
-        this.set({
-          products: this.select(Selectors.productsWithPastPurchase, this.config.recommendations.idField)
-            .map(this.productTransformer)
-        });
-        break;
-    }
-  }
+  updateProducts = (products: any = []) =>
+    this.set({
+      products: this.select(Selectors.productsWithPastPurchase, this.config.recommendations.idField)
+        .map(this.productTransformer)
+    })
+
+  updatePastPurchaseProducts = (products: any = []) =>
+    this.set({ products: this.mapProducts(products) })
 
   mapProducts = (products: Store.ProductWithMetadata[]) => {
     return products.map(this.productTransformer);
