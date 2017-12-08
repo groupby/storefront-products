@@ -86,7 +86,6 @@ suite('Products', ({ expect, spy, stub, itShouldBeConfigurable, itShouldHaveAlia
       const transform = products.productTransformer = spy(() => 'x');
       products.config = <any>{ recommendations: { idField } };
       products.props = {};
-      products.props.storeSection = StoreSections.DEFAULT;
 
       products.updateProducts();
 
@@ -100,16 +99,25 @@ suite('Products', ({ expect, spy, stub, itShouldBeConfigurable, itShouldHaveAlia
   });
   describe('updatePastPurchaseProducts()', () => {
     it('should set past purchase products', () => {
-      const idField = 'sku';
       const set = products.set = spy();
       const productsArray = ['a', 'b', 'c'];
       const mapProducts = products.mapProducts = spy(() => productsArray);
-      products.props = { storeSection: StoreSections.PAST_PURCHASES };
 
       products.updatePastPurchaseProducts(productsArray);
 
       expect(set).to.be.calledWith({ products: productsArray });
       expect(mapProducts).to.be.calledWithExactly(productsArray);
+    });
+
+    it('should default to empty array', () => {
+      const set = products.set = spy();
+      const returnedProducts = [1,2,3,4];
+      const mapProducts = products.mapProducts = spy(() => returnedProducts);
+
+      products.updatePastPurchaseProducts();
+
+      expect(set).to.be.calledWith({ products: returnedProducts });
+      expect(mapProducts).to.be.calledWithExactly([]);
     });
   });
 
