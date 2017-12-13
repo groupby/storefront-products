@@ -45,11 +45,7 @@ class Products {
     })
 
   updatePastPurchaseProducts = (products: any = []) =>
-    this.set({ products: this.mapProducts(products) })
-
-  mapProducts = (products: Store.ProductWithMetadata[]) => {
-    return products.map(this.productTransformer);
-  }
+    this.set({ products: products.map(this.productTransformer) })
 }
 
 interface Products extends Tag<Tag.Props, Products.State> { }
