@@ -101,34 +101,35 @@ suite('Products', ({ expect, spy, stub, itShouldBeConfigurable, itShouldHaveAlia
     it('should set past purchase products', () => {
       const set = products.set = spy();
       const productsArray = ['a', 'b', 'c'];
-      const mapProducts = products.mapProducts = spy(() => productsArray);
+      const productTransformer = products.productTransformer = stub().returnsArg(0);
 
       products.updatePastPurchaseProducts(productsArray);
 
       expect(set).to.be.calledWith({ products: productsArray });
-      expect(mapProducts).to.be.calledWithExactly(productsArray);
+      expect(productTransformer.callCount).to.eql(productsArray.length);
+      for (const element of productsArray) {
+        expect(productTransformer).to.be.calledWith(element);
+      }
+    });
+
+    it('should call map with productTransformer', () => {
+      const map = spy();
+      const productsArray: any = { map };
+      products.set = spy();
+
+      products.updatePastPurchaseProducts(productsArray);
+
+      expect(map).to.be.calledWithExactly(products.productTransformer);
     });
 
     it('should default to empty array', () => {
       const set = products.set = spy();
-      const returnedProducts = [1,2,3,4];
-      const mapProducts = products.mapProducts = spy(() => returnedProducts);
+      const productTransformer = products.productTransformer = stub().returnsArg(0);
 
       products.updatePastPurchaseProducts();
 
-      expect(set).to.be.calledWith({ products: returnedProducts });
-      expect(mapProducts).to.be.calledWithExactly([]);
-    });
-  });
-
-  describe('mapProducts()', () => {
-    it('should call map with producttransformer', () => {
-      const map = spy();
-      const productsArray: any = { map };
-
-      products.mapProducts(productsArray);
-
-      expect(map).to.be.calledWithExactly(products.productTransformer);
+      expect(set).to.be.calledWith({ products: [] });
+      expect(productTransformer).to.not.be.called;
     });
   });
 });
