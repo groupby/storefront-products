@@ -30,6 +30,7 @@ class Products {
         this.flux.on(Events.PAST_PURCHASE_PRODUCTS_UPDATED, this.updatePastPurchaseProducts);
         break;
       case StoreSections.SEARCH:
+        this.updateProducts();
         this.flux.on(Events.PRODUCTS_UPDATED, this.updateProducts);
         break;
     }
@@ -38,11 +39,12 @@ class Products {
   productTransformer: Transformer = ({ data, meta }: Product) =>
     ({ ...ProductTransformer.transformer(this.structure)(data), meta })
 
-  updateProducts = () =>
+  updateProducts = () => {
+    const products = this.select(Selectors.productsWithPastPurchase, this.config.recommendations.idField);
     this.set({
-      products: this.select(Selectors.productsWithPastPurchase, this.config.recommendations.idField)
-        .map(this.productTransformer)
-    })
+      products: products.map(this.productTransformer)
+    });
+  }
 
   updatePastPurchaseProducts = (products: any = []) =>
     this.set({ products: products.map(this.productTransformer) })
