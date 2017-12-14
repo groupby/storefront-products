@@ -47,6 +47,7 @@ suite('Products', ({ expect, spy, stub, itShouldBeConfigurable, itShouldHaveAlia
     it('should listen for PRODUCTS_UPDATED', () => {
       const on = spy();
       products.flux = <any>{ on };
+      products.updateProducts = spy();
       products.props = {};
       products.props = { storeSection: StoreSections.SEARCH };
 
@@ -67,6 +68,7 @@ suite('Products', ({ expect, spy, stub, itShouldBeConfigurable, itShouldHaveAlia
 
     it('should mixin props to state', () => {
       const state = <any>{ a: 'b' };
+      products.updateProducts = spy();
       products.flux = <any>{ on: () => null };
       products.state = state;
       products.props = {};
@@ -75,6 +77,17 @@ suite('Products', ({ expect, spy, stub, itShouldBeConfigurable, itShouldHaveAlia
       products.init();
 
       expect(products.state).to.eql(state);
+    });
+
+    it('should call updateProducts', () => {
+      const state = <any>{ a: 'b' };
+      const updateProducts = products.updateProducts = spy();
+      products.flux = <any>{ on: () => null };
+      products.state = state;
+
+      products.init();
+
+      expect(updateProducts).to.be.calledOnce;
     });
   });
 
