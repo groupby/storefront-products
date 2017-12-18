@@ -1,4 +1,4 @@
-import { Events, ProductTransformer, Selectors } from '@storefront/core';
+import { Events, ProductTransformer, Selectors, StoreSections } from '@storefront/core';
 import Products from '../../src/products';
 import suite from './_suite';
 
@@ -48,16 +48,29 @@ suite('Products', ({ expect, spy, stub, itShouldBeConfigurable, itShouldHaveAlia
       const on = spy();
       products.flux = <any>{ on };
       products.props = {};
+      products.props = { storeSection: StoreSections.SEARCH };
 
       products.init();
 
       expect(on).to.be.calledWith(Events.PRODUCTS_UPDATED, products.updateProducts);
     });
 
+    it('should listen for PAST_PURCHASE_PRODUCTS_UPDATED', () => {
+      const on = spy();
+      products.flux = <any>{ on };
+      products.props = { storeSection: StoreSections.PAST_PURCHASES };
+
+      products.init();
+
+      expect(on).to.be.calledWith(Events.PAST_PURCHASE_PRODUCTS_UPDATED, products.updatePastPurchaseProducts);
+    });
+
     it('should mixin props to state', () => {
       const state = <any>{ a: 'b' };
       products.flux = <any>{ on: () => null };
       products.state = state;
+      products.props = {};
+      products.props.storeSection = StoreSections.DEFAULT;
 
       products.init();
 
@@ -72,6 +85,7 @@ suite('Products', ({ expect, spy, stub, itShouldBeConfigurable, itShouldHaveAlia
       const select = products.select = spy(() => ['a', 'b', 'c']);
       const transform = products.productTransformer = spy(() => 'x');
       products.config = <any>{ recommendations: { idField } };
+      products.props = {};
 
       products.updateProducts();
 
@@ -81,6 +95,41 @@ suite('Products', ({ expect, spy, stub, itShouldBeConfigurable, itShouldHaveAlia
         .and.calledWith('a')
         .and.calledWith('b')
         .and.calledWith('c');
+    });
+  });
+  describe('updatePastPurchaseProducts()', () => {
+    it('should set past purchase products', () => {
+      const set = products.set = spy();
+      const productsArray = ['a', 'b', 'c'];
+      const productTransformer = products.productTransformer = stub().returnsArg(0);
+
+      products.updatePastPurchaseProducts(productsArray);
+
+      expect(set).to.be.calledWith({ products: productsArray });
+      expect(productTransformer.callCount).to.eql(productsArray.length);
+      for (const element of productsArray) {
+        expect(productTransformer).to.be.calledWith(element);
+      }
+    });
+
+    it('should call map with productTransformer', () => {
+      const map = spy();
+      const productsArray: any = { map };
+      products.set = spy();
+
+      products.updatePastPurchaseProducts(productsArray);
+
+      expect(map).to.be.calledWithExactly(products.productTransformer);
+    });
+
+    it('should default to empty array', () => {
+      const set = products.set = spy();
+      const productTransformer = products.productTransformer = stub().returnsArg(0);
+
+      products.updatePastPurchaseProducts();
+
+      expect(set).to.be.calledWith({ products: [] });
+      expect(productTransformer).to.not.be.called;
     });
   });
 });
