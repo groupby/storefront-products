@@ -70,7 +70,7 @@ suite('Products', ({ expect, spy, stub, itShouldBeConfigurable, itShouldHaveAlia
 
     it('should mixin props to state', () => {
       const state = <any>{ a: 'b' };
-      products.updateProducts = spy();
+      products.updateProducts = () => null;
       products.flux = <any>{ on: () => null };
       products.state = state;
       products.props = {};

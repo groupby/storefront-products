@@ -25,6 +25,7 @@ class Products {
   };
 
   init() {
+    // we force an update on init to avoid race condition issues
     switch (this.props.storeSection) {
       case StoreSections.PAST_PURCHASES:
         this.updatePastPurchaseProducts(this.select(Selectors.pastPurchaseProducts));
