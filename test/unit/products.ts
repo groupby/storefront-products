@@ -47,6 +47,7 @@ suite('Products', ({ expect, spy, stub, itShouldBeConfigurable, itShouldHaveAlia
     it('should listen for PRODUCTS_UPDATED', () => {
       const on = spy();
       products.flux = <any>{ on };
+      products.updateProducts = () => null;
       products.props = {};
       products.props = { storeSection: StoreSections.SEARCH };
 
@@ -59,6 +60,8 @@ suite('Products', ({ expect, spy, stub, itShouldBeConfigurable, itShouldHaveAlia
       const on = spy();
       products.flux = <any>{ on };
       products.props = { storeSection: StoreSections.PAST_PURCHASES };
+      products.select = () => null;
+      products.updatePastPurchaseProducts = () => null;
 
       products.init();
 
@@ -67,6 +70,7 @@ suite('Products', ({ expect, spy, stub, itShouldBeConfigurable, itShouldHaveAlia
 
     it('should mixin props to state', () => {
       const state = <any>{ a: 'b' };
+      products.updateProducts = () => null;
       products.flux = <any>{ on: () => null };
       products.state = state;
       products.props = {};
@@ -75,6 +79,18 @@ suite('Products', ({ expect, spy, stub, itShouldBeConfigurable, itShouldHaveAlia
       products.init();
 
       expect(products.state).to.eql(state);
+    });
+
+    it('should call updateProducts', () => {
+      const state = <any>{ a: 'b' };
+      const updateProducts = products.updateProducts = spy();
+      products.props = { storeSection: StoreSections.SEARCH };
+      products.flux = <any>{ on: () => null };
+      products.state = state;
+
+      products.init();
+
+      expect(updateProducts).to.be.calledOnce;
     });
   });
 
@@ -100,21 +116,31 @@ suite('Products', ({ expect, spy, stub, itShouldBeConfigurable, itShouldHaveAlia
   describe('updatePastPurchaseProducts()', () => {
     it('should set past purchase products', () => {
       const set = products.set = spy();
-      const productsArray = ['a', 'b', 'c'];
+      const productsArray = [
+        { meta: 'a', a: 1 },
+        { meta: 'b', a: 2 },
+        { meta: 'c', a: 3 },
+      ];
+      const mappedArray = [
+        { meta: 'a', data: { a: 1 }},
+        { meta: 'b', data: { a: 2 }},
+        { meta: 'c', data: { a: 3 }},
+      ];
       const productTransformer = products.productTransformer = stub().returnsArg(0);
 
       products.updatePastPurchaseProducts(productsArray);
 
-      expect(set).to.be.calledWith({ products: productsArray });
+      expect(set).to.be.calledWith({ products: mappedArray });
       expect(productTransformer.callCount).to.eql(productsArray.length);
-      for (const element of productsArray) {
+      for (const element of mappedArray) {
         expect(productTransformer).to.be.calledWith(element);
       }
     });
 
     it('should call map with productTransformer', () => {
-      const map = spy();
+      const map = stub();
       const productsArray: any = { map };
+      map.returns(productsArray);
       products.set = spy();
 
       products.updatePastPurchaseProducts(productsArray);
