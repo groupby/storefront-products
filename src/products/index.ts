@@ -38,20 +38,19 @@ class Products {
     }
   }
 
-  productTransformer: Transformer = ({ data, meta }: Product) =>
-    ({ ...ProductTransformer.transformer(this.structure)(data), meta })
-
   updateProducts = () => {
-    const products = this.select(Selectors.productsWithPastPurchase, this.config.recommendations.idField);
+    const customConfig = {
+      area: 'Production',
+      collection: 'productsLeaf',
+    };
+
+    // this.flux.store.dispatch(this.flux.actions.customFetchProducts);
+
     this.set({
-      products: products.map(this.productTransformer)
+      products: this.select(Selectors.productsWithPastPurchase, this.config.recommendations.idField)
+        .map(this.productTransformer)
     });
   }
-
-  updatePastPurchaseProducts = (products: any = []) =>
-    this.set({ products: products
-             .map(({ meta, ...data }) => ({ data, meta }))
-             .map(this.productTransformer) })
 }
 
 interface Products extends Tag<Tag.Props, Products.State> { }
