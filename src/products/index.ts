@@ -25,31 +25,32 @@ class Products {
   };
 
   init() {
-    // we force an update on init to avoid race condition issues
-    switch (this.props.storeSection) {
-      case StoreSections.PAST_PURCHASES:
-        this.updatePastPurchaseProducts(this.select(Selectors.pastPurchaseProducts));
-        this.flux.on(Events.PAST_PURCHASE_PRODUCTS_UPDATED, this.updatePastPurchaseProducts);
-        break;
-      case StoreSections.SEARCH:
-        this.updateProducts();
-        this.flux.on(Events.PRODUCTS_UPDATED, this.updateProducts);
-        break;
-    }
+    this.flux.on(Events.PRODUCTS_UPDATED, this.updateProducts);
+    // this.fetchTrendingProducts();
   }
 
   updateProducts = () => {
-    const customConfig = {
-      area: 'Production',
-      collection: 'productsLeaf',
-    };
-
-    // this.flux.store.dispatch(this.flux.actions.customFetchProducts);
-
     this.set({
       products: this.select(Selectors.productsWithPastPurchase, this.config.recommendations.idField)
         .map(this.productTransformer)
     });
+  }
+
+  fetchTrendingProducts = () => {
+    const request = {
+      method: 'POST',
+      body: JSON.stringify({
+        type: 'order',
+        size: '4',
+        target: 'sku',
+        window: 'week'
+      })
+    };
+
+    // tslint:disable-next-line:max-line-length
+    const url = `https://${this.config.customerId}.groupbycloud.com/wisdom/v2/public/recommendations/products/_getTrending`;
+    this.flux.store.dispatch(this.flux.actions.customFetchProducts({ request, url }));
+
   }
 }
 
