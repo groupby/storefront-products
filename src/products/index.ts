@@ -38,6 +38,7 @@ class Products {
     }
 
     this.fetchTrendingProducts();
+    // this.customSearch();
   }
 
   productTransformer: Transformer = ({ data, meta }: Product) =>
@@ -71,6 +72,18 @@ class Products {
     // tslint:disable-next-line:max-line-length
     const url = `https://${this.config.customerId}.groupbycloud.com/wisdom/v2/public/recommendations/products/_getTrending`;
     this.flux.store.dispatch(this.flux.actions.customFetchProducts({ request, url }));
+  }
+
+  customSearch = () => {
+    const request = {
+      area: 'Production',
+      collection: 'productsLeaf',
+      fields: ['*'],
+      pageSize: 7,
+      query: 'cat',
+    };
+
+    this.flux.store.dispatch(this.flux.actions.customFetchProducts({ request, type: 'SEARCH' }));
   }
 }
 
