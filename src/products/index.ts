@@ -29,11 +29,11 @@ class Products {
     switch (this.props.storeSection) {
       case StoreSections.PAST_PURCHASES:
         this.updatePastPurchaseProducts(this.select(Selectors.pastPurchaseProducts));
-        this.flux.on(Events.PAST_PURCHASE_PRODUCTS_UPDATED, this.updatePastPurchaseProducts);
+        this.subscribe(Events.PAST_PURCHASE_PRODUCTS_UPDATED, this.updatePastPurchaseProducts);
         break;
       case StoreSections.SEARCH:
         this.updateProducts();
-        this.flux.on(Events.PRODUCTS_UPDATED, this.updateProducts);
+        this.subscribe(Events.PRODUCTS_UPDATED, this.updateProducts);
         break;
     }
   }
