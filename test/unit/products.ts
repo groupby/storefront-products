@@ -45,33 +45,31 @@ suite('Products', ({ expect, spy, stub, itShouldBeConfigurable, itShouldHaveAlia
 
   describe('init()', () => {
     it('should listen for PRODUCTS_UPDATED', () => {
-      const on = spy();
-      products.flux = <any>{ on };
+      const subscribe = products.subscribe = spy();
       products.updateProducts = () => null;
       products.props = {};
       products.props = { storeSection: StoreSections.SEARCH };
 
       products.init();
 
-      expect(on).to.be.calledWith(Events.PRODUCTS_UPDATED, products.updateProducts);
+      expect(subscribe).to.be.calledWith(Events.PRODUCTS_UPDATED, products.updateProducts);
     });
 
     it('should listen for PAST_PURCHASE_PRODUCTS_UPDATED', () => {
-      const on = spy();
-      products.flux = <any>{ on };
+      const subscribe = products.subscribe = spy();
       products.props = { storeSection: StoreSections.PAST_PURCHASES };
       products.select = () => null;
       products.updatePastPurchaseProducts = () => null;
 
       products.init();
 
-      expect(on).to.be.calledWith(Events.PAST_PURCHASE_PRODUCTS_UPDATED, products.updatePastPurchaseProducts);
+      expect(subscribe).to.be.calledWith(Events.PAST_PURCHASE_PRODUCTS_UPDATED, products.updatePastPurchaseProducts);
     });
 
     it('should mixin props to state', () => {
       const state = <any>{ a: 'b' };
       products.updateProducts = () => null;
-      products.flux = <any>{ on: () => null };
+      products.subscribe = () => null;
       products.state = state;
       products.props = {};
       products.props.storeSection = StoreSections.DEFAULT;
@@ -85,7 +83,7 @@ suite('Products', ({ expect, spy, stub, itShouldBeConfigurable, itShouldHaveAlia
       const state = <any>{ a: 'b' };
       const updateProducts = products.updateProducts = spy();
       products.props = { storeSection: StoreSections.SEARCH };
-      products.flux = <any>{ on: () => null };
+      products.subscribe = () => null ;
       products.state = state;
 
       products.init();
