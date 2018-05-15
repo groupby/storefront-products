@@ -4,7 +4,7 @@ import suite from './_suite';
 
 const STRUCTURE = { a: 'b' };
 
-suite('Products', ({ expect, spy, stub, itShouldBeConfigurable, itShouldHaveAlias }) => {
+suite('Products', ({ expect, spy, stub, itShouldBeConfigurable, itShouldProvideAlias }) => {
   let products: Products;
 
   beforeEach(() => {
@@ -14,13 +14,9 @@ suite('Products', ({ expect, spy, stub, itShouldBeConfigurable, itShouldHaveAlia
   afterEach(() => delete Products.prototype.config);
 
   itShouldBeConfigurable(Products);
-  itShouldHaveAlias(Products, 'products');
+  itShouldProvideAlias(Products, 'products');
 
   describe('constructor()', () => {
-    it('should set initial values', () => {
-      expect(products.structure).to.eq(STRUCTURE);
-    });
-
     describe('state', () => {
       it('should have initial value', () => {
         expect(products.state).to.eql({ products: [] });
@@ -32,9 +28,10 @@ suite('Products', ({ expect, spy, stub, itShouldBeConfigurable, itShouldHaveAlia
         const data: any = { a: 'b' };
         const meta: any = { c: 'd' };
         const transformed = { y: 'z' };
-        const structure = products.structure = <any>{ e: 'f' };
+        const structure = { e: 'f' };
         const transformer = spy(() => ({ data: transformed }));
         const transformerFactory = stub(ProductTransformer, 'transformer').returns(transformer);
+        products.config = { structure } as any;
 
         expect(products.productTransformer({ data, index: 1, meta })).to.eql({ data: transformed, meta });
         expect(transformerFactory).to.be.calledWithExactly(structure);
@@ -45,7 +42,7 @@ suite('Products', ({ expect, spy, stub, itShouldBeConfigurable, itShouldHaveAlia
 
   describe('init()', () => {
     it('should listen for PRODUCTS_UPDATED', () => {
-      const subscribe = products.subscribe = spy();
+      const subscribe = (products.subscribe = spy());
       products.updateProducts = () => null;
       products.props = {};
       products.props = { storeSection: StoreSections.SEARCH };
@@ -56,7 +53,7 @@ suite('Products', ({ expect, spy, stub, itShouldBeConfigurable, itShouldHaveAlia
     });
 
     it('should listen for PAST_PURCHASE_PRODUCTS_UPDATED', () => {
-      const subscribe = products.subscribe = spy();
+      const subscribe = (products.subscribe = spy());
       products.props = { storeSection: StoreSections.PAST_PURCHASES };
       products.select = () => null;
       products.updatePastPurchaseProducts = () => null;
@@ -81,9 +78,9 @@ suite('Products', ({ expect, spy, stub, itShouldBeConfigurable, itShouldHaveAlia
 
     it('should call updateProducts', () => {
       const state = <any>{ a: 'b' };
-      const updateProducts = products.updateProducts = spy();
+      const updateProducts = (products.updateProducts = spy());
       products.props = { storeSection: StoreSections.SEARCH };
-      products.subscribe = () => null ;
+      products.subscribe = () => null;
       products.state = state;
 
       products.init();
@@ -95,9 +92,9 @@ suite('Products', ({ expect, spy, stub, itShouldBeConfigurable, itShouldHaveAlia
   describe('updateProducts()', () => {
     it('should set products', () => {
       const idField = 'sku';
-      const set = products.set = spy();
-      const select = products.select = spy(() => ['a', 'b', 'c']);
-      const transform = products.productTransformer = spy(() => 'x');
+      const set = (products.set = spy());
+      const select = (products.select = spy(() => ['a', 'b', 'c']));
+      const transform = (products.productTransformer = spy(() => 'x'));
       products.config = <any>{ recommendations: { idField } };
       products.props = {};
 
@@ -105,7 +102,8 @@ suite('Products', ({ expect, spy, stub, itShouldBeConfigurable, itShouldHaveAlia
 
       expect(set).to.be.calledWith({ products: ['x', 'x', 'x'] });
       expect(select).to.be.calledWithExactly(Selectors.productsWithPastPurchase, idField);
-      expect(transform).to.have.callCount(3)
+      expect(transform)
+        .to.have.callCount(3)
         .and.calledWith('a')
         .and.calledWith('b')
         .and.calledWith('c');
@@ -113,18 +111,10 @@ suite('Products', ({ expect, spy, stub, itShouldBeConfigurable, itShouldHaveAlia
   });
   describe('updatePastPurchaseProducts()', () => {
     it('should set past purchase products', () => {
-      const set = products.set = spy();
-      const productsArray = [
-        { meta: 'a', a: 1 },
-        { meta: 'b', a: 2 },
-        { meta: 'c', a: 3 },
-      ];
-      const mappedArray = [
-        { meta: 'a', data: { a: 1 }},
-        { meta: 'b', data: { a: 2 }},
-        { meta: 'c', data: { a: 3 }},
-      ];
-      const productTransformer = products.productTransformer = stub().returnsArg(0);
+      const set = (products.set = spy());
+      const productsArray = [{ meta: 'a', a: 1 }, { meta: 'b', a: 2 }, { meta: 'c', a: 3 }];
+      const mappedArray = [{ meta: 'a', data: { a: 1 } }, { meta: 'b', data: { a: 2 } }, { meta: 'c', data: { a: 3 } }];
+      const productTransformer = (products.productTransformer = stub().returnsArg(0));
 
       products.updatePastPurchaseProducts(productsArray);
 
@@ -147,8 +137,8 @@ suite('Products', ({ expect, spy, stub, itShouldBeConfigurable, itShouldHaveAlia
     });
 
     it('should default to empty array', () => {
-      const set = products.set = spy();
-      const productTransformer = products.productTransformer = stub().returnsArg(0);
+      const set = (products.set = spy());
+      const productTransformer = (products.productTransformer = stub().returnsArg(0));
 
       products.updatePastPurchaseProducts();
 
