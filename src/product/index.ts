@@ -1,14 +1,13 @@
-import { alias, tag, Selectors, Store, Tag } from '@storefront/core';
+import { provide, tag, Selectors, Store, Tag } from '@storefront/core';
 
-@alias('product')
+@provide('product')
 @tag('gb-product', require('./index.html'))
 class Product {
-
   props: Product.Props = {
     product: {
       data: {},
-      variants: []
-    }
+      variants: [],
+    },
   };
   state: Product.State = {
     data: {},
@@ -17,7 +16,7 @@ class Product {
     link: () => {
       return this.services.url.beautifier.build('details', {
         data: this.state.data,
-        variants: []
+        variants: [],
       });
     },
     onClick: () => this.flux.detailsWithRouting(this.select(Selectors.findProduct, this.state.data.id)),
@@ -28,10 +27,10 @@ class Product {
         const selected = this.props.product.variants[index];
         this.set(persist ? { selected, persistent: index } : { selected });
       }
-    }
+    },
   };
 
-  init() {
+  onBeforeMount() {
     this.state = { ...this.state, ...this.props.product };
   }
 
@@ -39,13 +38,12 @@ class Product {
     this.state = {
       ...this.state,
       ...this.props.product,
-      data: this.state.selected || this.props.product.data || this.state.data
+      data: this.state.selected || this.props.product.data || this.state.data,
     };
-    this.updateAlias('product', this.state);
   }
 }
 
-interface Product extends Tag<Product.Props, Product.State> { }
+interface Product extends Tag<Product.Props, Product.State> {}
 namespace Product {
   export interface Props extends Tag.Props {
     product: {

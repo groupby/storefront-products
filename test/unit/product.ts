@@ -2,10 +2,12 @@ import { Selectors } from '@storefront/core';
 import Product from '../../src/product';
 import suite from './_suite';
 
-suite('Product', ({ expect, spy }) => {
+suite('Product', ({ expect, spy, itShouldProvideAlias }) => {
   let product: Product;
 
-  beforeEach(() => product = new Product());
+  beforeEach(() => (product = new Product()));
+
+  itShouldProvideAlias(Product, 'product');
 
   describe('constructor()', () => {
     describe('props', () => {
@@ -13,8 +15,8 @@ suite('Product', ({ expect, spy }) => {
         expect(product.props).to.eql({
           product: {
             data: {},
-            variants: []
-          }
+            variants: [],
+          },
         });
       });
     });
@@ -29,13 +31,13 @@ suite('Product', ({ expect, spy }) => {
       describe('link()', () => {
         it('should call build with state', () => {
           const build = spy();
-          const data = product.state.data = { id: 3, title: 'grip' };
+          const data = (product.state.data = { id: 3, title: 'grip' });
           product.services = <any>{
             url: {
               beautifier: {
-                build
-              }
-            }
+                build,
+              },
+            },
           };
 
           product.state.link();
@@ -48,8 +50,8 @@ suite('Product', ({ expect, spy }) => {
         it('should call flux.detailsWithRouting with id and title', () => {
           const prod = 'product';
           const detailsWithRouting = spy();
-          const data = product.state.data = { id: '123', title: 'idk' };
-          const select = product.select = spy(() => prod);
+          const data = (product.state.data = { id: '123', title: 'idk' });
+          const select = (product.select = spy(() => prod));
           product.flux = <any>{ detailsWithRouting };
 
           product.state.onClick();
@@ -61,12 +63,12 @@ suite('Product', ({ expect, spy }) => {
 
       describe('onSelect()', () => {
         it('should revert back to persistent selection', () => {
-          const set = product.set = spy();
+          const set = (product.set = spy());
           const oldVariant = { a: 'b' };
           product.state.persistent = 1;
           product.props.product = {
             data: {},
-            variants: [{ c: 'd' }, oldVariant]
+            variants: [{ c: 'd' }, oldVariant],
           };
 
           product.state.onSelect(-1);
@@ -75,11 +77,11 @@ suite('Product', ({ expect, spy }) => {
         });
 
         it('should set to new selection', () => {
-          const set = product.set = spy();
+          const set = (product.set = spy());
           const newVariant = { a: 'b' };
           product.props.product = {
             data: {},
-            variants: [{ c: 'd' }, newVariant]
+            variants: [{ c: 'd' }, newVariant],
           };
 
           product.state.onSelect(1);
@@ -88,12 +90,12 @@ suite('Product', ({ expect, spy }) => {
         });
 
         it('should set to new selection and set persistent', () => {
-          const set = product.set = spy();
+          const set = (product.set = spy());
           const newVariant = { a: 'b' };
           const index = 1;
           product.props.product = {
             data: {},
-            variants: [{ c: 'd' }, newVariant]
+            variants: [{ c: 'd' }, newVariant],
           };
 
           product.state.onSelect(index, true);
@@ -102,66 +104,59 @@ suite('Product', ({ expect, spy }) => {
         });
 
         it('should not call set()', () => {
-          const set = product.set = spy();
+          const set = (product.set = spy());
           const newVariant = { a: 'b' };
           const index = 100000;
           product.props.product = {
             data: {},
-            variants: [{ c: 'd' }, newVariant]
+            variants: [{ c: 'd' }, newVariant],
           };
 
           product.state.onSelect(index, true);
 
           expect(set).to.not.be.called;
         });
- 
       });
     });
   });
 
-  describe('init()', () => {
+  describe('onBeforeMount()', () => {
     it('should mixin product to state', () => {
       product.props = <any>{ product: { a: 'b' } };
       product.state = <any>{ c: 'd' };
 
-      product.init();
+      product.onBeforeMount();
 
       expect(product.state).to.eql({ a: 'b', c: 'd' });
     });
   });
 
   describe('onUpdate()', () => {
-    it('should update state and alias', () => {
+    it('should update state', () => {
       const state = <any>{ a: 'b', data: { ayy: 'lmao' } };
       const productStuff = { c: 'd' };
-      const updateAlias = spy();
       const newState = { ...state, ...productStuff };
       product.state = state;
       product.props = <any>{
-        product: productStuff
+        product: productStuff,
       };
-      product.updateAlias = updateAlias;
       product.onUpdate();
 
       expect(product.state).to.eql(newState);
-      expect(updateAlias).to.be.calledWith('product', newState);
     });
 
     it('should update data to selected', () => {
       const selected = { ye: 'boy' };
       const state = <any>{ a: 'b', data: { ayy: 'lmao' }, selected };
       const productStuff = { c: 'd' };
-      const updateAlias = spy();
       const newState = { ...state, ...productStuff, data: selected };
       product.state = state;
       product.props = <any>{
-        product: productStuff
+        product: productStuff,
       };
-      product.updateAlias = updateAlias;
       product.onUpdate();
 
       expect(product.state).to.eql(newState);
-      expect(updateAlias).to.be.calledWith('product', newState);
     });
   });
 });
