@@ -1,10 +1,12 @@
 import SwatchVariantControls from '../../src/swatch-variant-controls';
 import suite from './_suite';
 
-suite('SwatchVariantControls', ({ expect, spy }) => {
+suite('SwatchVariantControls', ({ expect, spy, itShouldConsumeAlias }) => {
   let swatchControls: SwatchVariantControls;
 
-  beforeEach(() => swatchControls = new SwatchVariantControls());
+  beforeEach(() => (swatchControls = new SwatchVariantControls()));
+
+  itShouldConsumeAlias(SwatchVariantControls, 'product');
 
   describe('options()', () => {
     it('should return an array of variant values', () => {
