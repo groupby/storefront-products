@@ -15,12 +15,12 @@ class Products {
     // we force an update on init to avoid race condition issues
     switch (this.props.storeSection) {
       case Core.StoreSections.PAST_PURCHASES:
-        this.updatePastPurchaseProducts(this.select(Core.Selectors.pastPurchaseProducts));
         this.subscribe(Core.Events.PAST_PURCHASE_PRODUCTS_UPDATED, this.updatePastPurchaseProducts);
+        this.updatePastPurchaseProducts(this.select(Core.Selectors.pastPurchaseProducts));
         break;
       case Core.StoreSections.SEARCH:
-        this.updateProducts();
         this.subscribe(Core.Events.PRODUCTS_UPDATED, this.updateProducts);
+        this.updateProducts();
         break;
     }
   }
