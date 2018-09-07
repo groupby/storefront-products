@@ -30,7 +30,7 @@ class Product {
     },
   };
 
-  onBeforeMount() {
+  init() {
     this.state = { ...this.state, ...this.props.product };
   }
 
