@@ -120,12 +120,12 @@ suite('Product', ({ expect, spy, itShouldProvideAlias }) => {
     });
   });
 
-  describe('onBeforeMount()', () => {
+  describe('init()', () => {
     it('should mixin product to state', () => {
       product.props = <any>{ product: { a: 'b' } };
       product.state = <any>{ c: 'd' };
 
-      product.onBeforeMount();
+      product.init();
 
       expect(product.state).to.eql({ a: 'b', c: 'd' });
     });
