@@ -1,4 +1,10 @@
-# StoreFront products
+# [MOVED] StoreFront products
+
+* * *
+
+**This repository has been moved to <https://github.com/groupby/storefront>.**
+
+* * *
 
 StoreFront `<gb-products>` component
 
